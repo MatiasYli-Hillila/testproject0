@@ -12,7 +12,6 @@
     "attributes": {
       "exportedPackages": [],
       "exportedResources": [
-        "log4j2.xml",
         "testproject0.xml"
       ]
     }
