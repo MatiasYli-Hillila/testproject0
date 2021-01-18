@@ -1,2 +1,2 @@
 # testi0
-Personal test repo for learning the ropes in Alfame
+Semi-personal test repo for learning the ropes in Alfame
