@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+<mule xmlns:bpm="http://www.mulesoft.org/schema/mule/bpm" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/bpm http://www.mulesoft.org/schema/mule/bpm/current/mule-bpm.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4bdfcdae-ff7e-47b0-bd9c-23e386950b0c" >
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
-	<flow name="testproject0Flow" doc:id="b38dff5d-d0b8-4107-b7fa-382c169935d5" >
-		<http:listener doc:id="ec65fcf8-a8c2-403f-8c0d-a16fd6f10688" doc:name="asdf" path="/hellomule" config-ref="HTTP_Listener_config"/>
+	<bpm:config name="BPM_Config" doc:name="BPM Config" doc:id="60052d1d-6086-4e8d-842b-e04b09e7d51a" />
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="935463f9-e0c3-457e-bef1-36acf3f9275c" basePath="/hellomule" >
+		<http:request-connection host="0.0.0.0" port="8081" />
+	</http:request-config>
+	<flow name="testproject0Flow0" doc:id="b38dff5d-d0b8-4107-b7fa-382c169935d5" >
+		<http:listener doc:id="ec65fcf8-a8c2-403f-8c0d-a16fd6f10688" doc:name="/hellomule" path="/hellomule" config-ref="HTTP_Listener_config"/>
 		<set-payload value="Hello Mule!" doc:name="Set Payload" doc:id="779c7c0f-0f5c-414e-9873-f6b98f361fe8" />
+	</flow>
+	<flow name="testproject0Flow1" doc:id="b488a644-b4f7-4cbb-a02f-a9084b631858" >
+		<bpm:task-listener doc:name="testTask Listener" doc:id="dc05f96e-695b-4622-a092-a8d8499db7e8" endpointUrl="bpm://testTask"/>
+		<bpm:get-variable doc:name="Get variable" doc:id="2dd66e1e-2da7-4977-a04e-56b2313d077c" variableName="testTaskDone"/>
+		<logger level="INFO" doc:name="Logger" doc:id="8526a4b3-7079-44a9-8ed7-4c75c7b6cd21" message="testproject0Flow1: variable testTaskDone retrieved"/>
+		<http:request method="GET" doc:name="Request" doc:id="c2c9856d-6f20-4679-8a4e-aacf65cd4e78" config-ref="HTTP_Request_configuration" path="/hellomule"/>
+		<logger level="INFO" doc:name="Logger" doc:id="5526fc7e-5dbc-46b8-93f3-486242fbc7e5" message="Request succesful?"/>
+	</flow>
+	<flow name="testproject0Flow2" doc:id="b79a05fc-beb1-41e7-b53f-c9cc4c0483ce" >
+		<http:listener doc:name="/processfactory" doc:id="d84d4520-da1f-4745-99c0-170530adf358" config-ref="HTTP_Listener_config" path="/processfactory"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e8f2f27b-a92f-4010-8b08-1d2902a151c1" message="/processfactory accessed"/>
+		<bpm:process-factory doc:name="testProcessModel" doc:id="72bfa5c9-7639-44cc-a9f6-37ef688766bc" processDefinitionKey="testProcessModel">
+			<bpm:process-variables >
+			</bpm:process-variables>
+		</bpm:process-factory>
 	</flow>
 </mule>
