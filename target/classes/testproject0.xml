@@ -30,25 +30,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</bpm:definitions>
 	</bpm:config>
 	<bpm:config name="BPM_Config1" doc:name="BPM Config" doc:id="4ed7e5d2-d347-458f-9950-28225069497a" />
+	<flow name="testproject0Flow1" doc:id="fbc858f7-26fd-411a-864f-1b2f95e2d3ab">
+		<bpm:task-listener doc:name="bpm://testTask" doc:id="a93a978f-aa58-4185-ad84-abb890f81610" endpointUrl="bpm://testTask" config-ref="BPM_Config_flow2_pf"/>
+		<logger level="INFO" doc:name="Logger" doc:id="5ff1ee6b-90cb-42e5-822f-541015d868b6" message='Task Listener caught task: "bpm://testTask"' />
+	</flow>
 	<flow name="testproject0Flow0" doc:id="b38dff5d-d0b8-4107-b7fa-382c169935d5" >
 		<http:listener doc:id="ec65fcf8-a8c2-403f-8c0d-a16fd6f10688" doc:name="/hellomule" path="/hellomule" config-ref="HTTP_Listener_config"/>
 		<set-payload value="Hello Mule!" doc:name="Set Payload" doc:id="779c7c0f-0f5c-414e-9873-f6b98f361fe8" />
-	</flow>
-	<flow name="testproject0Flow1" doc:id="5c3d4c0a-8b1a-408e-9959-c1995d99796d" >
-		<bpm:task-listener doc:name="Task listener" doc:id="6ea2442a-861a-4ba4-8dbe-5b0874141ec6" config-ref="BPM_Config1" endpointUrl="bpm://testTask"/>
-		<bpm:get-variable doc:name="Get variable" doc:id="85ac2bfa-96ee-44cd-b4db-2125c6d82e05" config-ref="BPM_Config" variableName="testTaskDone" />
-		<logger level="INFO" doc:name="Logger" doc:id="7fb21a0e-2721-4783-982a-6afdd0e31b2a" message="Task Listener caught testTaskDone"/>
-	</flow>
-	<flow name="testproject0Flow" doc:id="6ae04628-b9b6-4286-9da7-0cb98caf67f7" >
-		<http:listener doc:name="Listener" doc:id="fdf0dad9-5afe-4736-ae0b-870318825590" config-ref="HTTP_Listener_config" path="/getVariable"/>
-		<choice doc:name="Choice" doc:id="34952dda-0e76-46bc-a0cc-ddea97786883" >
-			<when expression="testTaskDone == true">
-				<logger level="INFO" doc:name="Logger" doc:id="e7bf2c62-6ea1-4d7d-acf9-341d8b39e13a" message="testTaskDone == true"/>
-			</when>
-			<otherwise >
-				<logger level="INFO" doc:name="Logger" doc:id="7d522239-41dc-44b4-92b1-62d113e09879" message="testTaskDone == false?"/>
-			</otherwise>
-		</choice>
 	</flow>
 	<flow name="testproject0Flow2" doc:id="b79a05fc-beb1-41e7-b53f-c9cc4c0483ce" >
 		<http:listener doc:name="/processfactory" doc:id="d84d4520-da1f-4745-99c0-170530adf358" config-ref="HTTP_Listener_config" path="/processfactory"/>
@@ -57,10 +45,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<bpm:process-variables >
 			</bpm:process-variables>
 		</bpm:process-factory>
-		<logger level="INFO" doc:name="Logger" doc:id="f3c968bd-3d16-4944-9758-da099983566a" message="/processFactory Process Model created, trying Set Variable testTaskDone = true"/>
-		<bpm:set-variable doc:name="Set variable" doc:id="6031a3ec-8044-4937-8d68-c6f288461e3b" config-ref="BPM_Config" variableName="testTaskDone">
-			<bpm:variable-content ><![CDATA[#[true]]]></bpm:variable-content>
-		</bpm:set-variable>
 		<logger level="INFO" doc:name="Logger" doc:id="3ca5bfda-fc2c-4281-ae6f-e459b4ceaca9" message="/processfactory flow succesful"/>
 	</flow>
 </mule>
