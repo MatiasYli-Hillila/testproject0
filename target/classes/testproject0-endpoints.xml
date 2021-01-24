@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:bpm="http://www.mulesoft.org/schema/mule/bpm"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/bpm http://www.mulesoft.org/schema/mule/bpm/current/mule-bpm.xsd">
+	<bpm:config name="bpmConfig" 
+		doc:name="BPM Config"
+        doc:id="472bbadd-0ee6-4d92-a5f9-4057ba39b671"
+        tenantId="com.alfame.esb.bi">
+
+    <bpm:definitions>
+        <bpm:classpath-definition
+                resourceClasspath="processes/test-process-model.bpmn20.xml" />
+    </bpm:definitions>
+    <bpm:async-executor-factory>
+        <bpm:default-async-executor-factory
+                defaultAsyncJobAcquireWaitTimeInMillis="30000" 
+                defaultTimerJobAcquireWaitTimeInMillis="30000" 
+                maxThreads="30" />
+    </bpm:async-executor-factory>
+</bpm:config>
+</mule>

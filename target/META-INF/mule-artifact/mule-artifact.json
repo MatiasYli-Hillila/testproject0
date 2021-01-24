@@ -1,6 +1,7 @@
 {
   "configs": [
-    "testproject0.xml"
+    "testproject0.xml",
+    "testproject0-endpoints.xml"
   ],
   "secureProperties": [],
   "redeploymentEnabled": true,
@@ -10,9 +11,11 @@
   "classLoaderModelLoaderDescriptor": {
     "id": "mule",
     "attributes": {
-      "exportedPackages": [],
       "exportedResources": [
-        "testproject0.xml"
+        "processes/test-process-model.bpmn20.xml"
+      ],
+      "exportedPackages": [
+        "org.h2"
       ]
     }
   },

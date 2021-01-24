@@ -1,3 +1,15 @@
 {
-  "minMuleVersion": "4.3.0"
+  "minMuleVersion": "4.3.0",
+  "requiredProduct": "MULE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [
+      	"org.h2"
+      ],
+      "exportedResources": [
+      	"processes/test-process-model.bpmn20.xml"
+      ]
+    }
+  }
 }
